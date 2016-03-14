@@ -78,7 +78,7 @@ function checkGameSaleStatus(user, gameList, game) {
       }
 
       if (toSend.length > 0) {
-        u = u ? [u] : list[g]['users']
+        u = u ? [u] : Object.keys(list[g]['users'])
         alertUsersOfSale(u, g, toSend);
         if (!user) {            // only do this if we're acting on data from Firebase
           delete list[g];      // This is super inefficient, but how to sync?
@@ -148,7 +148,7 @@ Sales.prototype.checkSales = function () {
 
     for (var g in games) {
       if (withinSixMonths(games[g]['updated_at'])) {
-        checkGameSaleStatus(Object.keys(games[g]["users"]), games, g);
+        checkGameSaleStatus(null, games, g);
       } else {
         delete games[g];
         ref.set(games, firebaseWriteCallback);
